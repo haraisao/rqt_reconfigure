@@ -33,9 +33,10 @@
 # Author: Isaac Saito, Ze'ev Klapow
 
 import rospy
+import rospkg
 
 from python_qt_binding.QtCore import QMargins
-from python_qt_binding.QtGui import QIcon
+from python_qt_binding.QtGui import QIcon, QPixmap
 from python_qt_binding.QtWidgets import (QFileDialog, QHBoxLayout,
                                          QPushButton, QWidget)
 from .param_editors import EditorWidget
@@ -73,9 +74,11 @@ class DynreconfClientWidget(GroupWidget):
 
         self.load_button = QPushButton()
         self.save_button = QPushButton()
-
-        self.load_button.setIcon(QIcon.fromTheme('document-open'))
-        self.save_button.setIcon(QIcon.fromTheme('document-save'))
+        rp=rospkg.RosPack()
+        self.load_button.setIcon(QIcon.fromTheme('document-open',
+            QIcon(QPixmap(os.path.join(rp.get_path('rqt_gui'), 'resource/icons/document-open.png')))))
+        self.save_button.setIcon(QIcon.fromTheme('document-save',
+            QIcon(QPixmap(os.path.join(rp.get_path('rqt_gui'), 'resource/icons/document-save.png')))))
 
         self.load_button.clicked[bool].connect(self._handle_load_clicked)
         self.save_button.clicked[bool].connect(self._handle_save_clicked)
