@@ -35,11 +35,12 @@
 import time
 
 from python_qt_binding.QtCore import QSize, Qt, Signal, QMargins
-from python_qt_binding.QtGui import QFont, QIcon
+from python_qt_binding.QtGui import QFont, QIcon, QPixmap
 from python_qt_binding.QtWidgets import (QFormLayout, QHBoxLayout,
                                          QGroupBox, QLabel, QPushButton,
                                          QTabWidget, QVBoxLayout, QWidget)
 import rospy
+import rospkg
 
 # *Editor classes that are not explicitly used within this .py file still need
 # to be imported. They are invoked implicitly during runtime.
@@ -122,7 +123,9 @@ class GroupWidget(QWidget):
         font.setBold(True)
 
         # Button to close a node.
-        _icon_disable_node = QIcon.fromTheme('window-close')
+        rp=rospkg.RosPack()
+        _icon_disable_node = QIcon.fromTheme('window-close',
+        QIcon(QPixmap(os.path.join(rp.get_path('rqt_gui'), 'resource', 'icons', 'window-close.png'))))
         _bt_disable_node = QPushButton(_icon_disable_node, '', self)
         _bt_disable_node.setToolTip('Hide this node')
         _bt_disable_node_size = QSize(36, 24)
